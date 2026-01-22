@@ -1,0 +1,7 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/src/brain/.venv/bin/python",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src/brain"
+    ],
+    "python.terminal.activateEnvInCurrentTerminal": true
+}

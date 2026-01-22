@@ -1,0 +1,36 @@
+meta {
+  name: Get Single Alert
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://127.0.0.1:8888/alerts/1
+  body: none
+  auth: none
+}
+
+tests {
+  test("Status is 200 or 404", function() {
+    expect([200, 404]).to.include(res.status);
+  });
+  
+  test("If found, alert has required fields", function() {
+    if (res.status === 200) {
+      expect(res.body).to.have.property('id');
+      expect(res.body).to.have.property('src_ip');
+      expect(res.body).to.have.property('dst_ip');
+      expect(res.body).to.have.property('src_port');
+      expect(res.body).to.have.property('dst_port');
+      expect(res.body).to.have.property('proto');
+      expect(res.body).to.have.property('score');
+      expect(res.body).to.have.property('timestamp');
+    }
+  });
+  
+  test("If not found, returns 404 with detail", function() {
+    if (res.status === 404) {
+      expect(res.body).to.have.property('detail');
+    }
+  });
+}

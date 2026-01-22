@@ -1,0 +1,46 @@
+meta {
+  name: Get All Alerts
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://127.0.0.1:8888/alerts?limit=10&offset=0
+  body: none
+  auth: none
+}
+
+params:query {
+  limit: 10
+  offset: 0
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response has data array", function() {
+    expect(res.body.data).to.be.an('array');
+  });
+  
+  test("Response has count field", function() {
+    expect(res.body.count).to.be.a('number');
+  });
+  
+  test("Response has limit and offset", function() {
+    expect(res.body.limit).to.equal(10);
+    expect(res.body.offset).to.equal(0);
+  });
+  
+  test("Each alert has required fields", function() {
+    if (res.body.data.length > 0) {
+      const alert = res.body.data[0];
+      expect(alert).to.have.property('id');
+      expect(alert).to.have.property('src_ip');
+      expect(alert).to.have.property('dst_ip');
+      expect(alert).to.have.property('score');
+      expect(alert).to.have.property('timestamp');
+    }
+  });
+}

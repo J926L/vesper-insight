@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Vesper Insight API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

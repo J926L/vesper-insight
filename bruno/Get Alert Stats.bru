@@ -1,0 +1,32 @@
+meta {
+  name: Get Alert Stats
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://127.0.0.1:8888/stats
+  body: none
+  auth: none
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response has total_alerts", function() {
+    expect(res.body.total_alerts).to.be.a('number');
+    expect(res.body.total_alerts).to.be.at.least(0);
+  });
+  
+  test("Response has max_score", function() {
+    expect(res.body.max_score).to.be.a('number');
+    expect(res.body.max_score).to.be.at.least(0);
+  });
+  
+  test("Response has avg_score", function() {
+    expect(res.body.avg_score).to.be.a('number');
+    expect(res.body.avg_score).to.be.at.least(0);
+  });
+}

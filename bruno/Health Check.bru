@@ -1,0 +1,25 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://127.0.0.1:8888/health
+  body: none
+  auth: none
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response has status field", function() {
+    expect(res.body.status).to.equal("healthy");
+  });
+  
+  test("Database is connected", function() {
+    expect(res.body.database).to.equal("connected");
+  });
+}

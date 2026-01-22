@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vesper Insight Portal</title>
+  </head>
+
+  <body>
+    <div class="sidebar">
+      <div class="logo">
+        <span id="logo-icon">V</span>
+        VESPER
+      </div>
+      <div class="nav-item active" id="nav-dashboard">Dashboard</div>
+      <div class="nav-item" id="nav-alerts">Alerts</div>
+      <div class="nav-item" id="nav-models">Models</div>
+      <div class="nav-item" id="nav-settings">Settings</div>
+    </div>
+
+    <main class="main-content">
+      <header class="header">
+        <h1 id="view-title">Overview</h1>
+        <div
+          id="status-dot"
+          class="status-offline"
+          style="
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #4b5563;
+          "
+        ></div>
+      </header>
+
+      <!-- Dashboard View -->
+      <div id="view-dashboard" class="view">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Total Flows</span>
+            <span class="stat-value" id="stat-total">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">High Risk Alerts</span>
+            <span
+              class="stat-value"
+              id="stat-alerts"
+              style="color: var(--danger)"
+              >0</span
+            >
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Max Anomaly Score</span>
+            <span
+              class="stat-value"
+              id="stat-max-score"
+              style="color: var(--warning)"
+              >0.00</span
+            >
+          </div>
+        </div>
+
+        <div class="alerts-panel">
+          <h2>Recent Anomalies</h2>
+          <div class="table-container">
+            <table id="alerts-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Flow</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows will be injected here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder Views -->
+      <div id="view-alerts" class="view" style="display: none">
+        <div class="header" style="margin-bottom: 1rem">
+          <h2>Historical Alerts</h2>
+          <button
+            id="refresh-alerts"
+            class="nav-item"
+            style="border: 1px solid var(--glass-border); padding: 0.5rem 1rem"
+          >
+            Refresh
+          </button>
+        </div>
+        <div class="alerts-panel">
+          <div
+            class="table-container"
+            style="max-height: calc(100vh - 200px); overflow-y: auto"
+          >
+            <table id="all-alerts-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Source</th>
+                  <th>Destination</th>
+                  <th>Proto</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows will be injected here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="view-models" class="view" style="display: none">
+        <div class="header" style="margin-bottom: 1rem">
+          <h2>AI Engine Status</h2>
+          <div style="display: flex; align-items: center; gap: 0.5rem">
+            <div
+              style="
+                width: 10px;
+                height: 10px;
+                background-color: var(--success);
+                border-radius: 50%;
+              "
+            ></div>
+            <span style="font-size: 0.875rem; color: var(--text-primary)"
+              >Active</span
+            >
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Algorithm</span>
+            <span class="stat-value" style="font-size: 1.5rem">HST</span>
+            <span class="stat-label" style="font-size: 0.75rem"
+              >Half-Space Trees</span
+            >
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Library</span>
+            <span class="stat-value" style="font-size: 1.5rem">River</span>
+            <span class="stat-label" style="font-size: 0.75rem"
+              >Online Learning</span
+            >
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Ensemble Size</span>
+            <span class="stat-value" style="font-size: 1.5rem">25</span>
+            <span class="stat-label" style="font-size: 0.75rem"
+              >Isolation Trees</span
+            >
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Window Size</span>
+            <span class="stat-value" style="font-size: 1.5rem">50</span>
+            <span class="stat-label" style="font-size: 0.75rem">Samples</span>
+          </div>
+        </div>
+      </div>
+      <div id="view-settings" class="view" style="display: none">
+        <div class="header" style="margin-bottom: 1rem">
+          <h2>System Settings</h2>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns: 1fr; gap: 1rem">
+          <!-- Refresh Rate -->
+          <div
+            class="stat-card"
+            style="
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div style="display: flex; flex-direction: column; gap: 0.25rem">
+              <span class="stat-value" style="font-size: 1.25rem"
+                >Refresh Rate</span
+              >
+              <span class="stat-label"
+                >Update frequency for dashboard and alerts</span
+              >
+            </div>
+            <div style="display: flex; gap: 0.5rem">
+              <button
+                class="nav-item setting-btn-rate"
+                data-rate="1000"
+                style="border: 1px solid var(--glass-border); padding: 0.5rem 1rem"
+              >
+                1s
+              </button>
+              <button
+                class="nav-item setting-btn-rate"
+                data-rate="2000"
+                style="border: 1px solid var(--glass-border); padding: 0.5rem 1rem"
+              >
+                2s
+              </button>
+              <button
+                class="nav-item setting-btn-rate"
+                data-rate="5000"
+                style="border: 1px solid var(--glass-border); padding: 0.5rem 1rem"
+              >
+                5s
+              </button>
+            </div>
+          </div>
+
+          <!-- Danger Zone -->
+          <div
+            class="stat-card"
+            style="
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              border-color: rgba(239, 68, 68, 0.3);
+            "
+          >
+            <div style="display: flex; flex-direction: column; gap: 0.25rem">
+              <span
+                class="stat-value"
+                style="font-size: 1.25rem; color: var(--danger)"
+                >Reset Data</span
+              >
+              <span class="stat-label">Clear all historical alerts and stats</span>
+            </div>
+            <button
+              id="btn-clear-history"
+              class="nav-item"
+              style="
+                border: 1px solid var(--danger);
+                color: var(--danger);
+                padding: 0.5rem 1rem;
+              "
+            >
+              Clear History
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

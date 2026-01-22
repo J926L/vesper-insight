@@ -1,0 +1,36 @@
+meta {
+  name: Clear All Alerts
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://127.0.0.1:8888/alerts
+  body: none
+  auth: none
+}
+
+docs {
+  ⚠️ WARNING: This will delete ALL alerts from the database!
+  
+  This endpoint clears the entire high_risk_flows table and resets the auto-increment counter.
+  Use with caution - this operation cannot be undone.
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response has status field", function() {
+    expect(res.body.status).to.equal("success");
+  });
+  
+  test("Response has message", function() {
+    expect(res.body.message).to.be.a('string');
+  });
+  
+  test("Response has deleted_count", function() {
+    expect(res.body).to.have.property('deleted_count');
+  });
+}
